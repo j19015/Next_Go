@@ -6,16 +6,19 @@ import (
 	"log"
 	//HTTPリクエストの受け入れ、レスポンスの送信、HTTPクライアントの作成に用いる
 	"net/http"
-	//Goのデータベース操作のためのインターフェースを提供。データベースへの接続、クエリの実行、結果の取得に用いる
-	//"database/sql"
-	//jsonデータのエンコード、デコードに用いる。
-	//"encoding/json"
-	//ORM、今回はentを使う
 	"context"
+	//ORM、今回はentを使う
 	"backend/myapp/ent"
 	//postgreSQLデータベースに接続するた目のドライバ
 	_ "github.com/lib/pq"
 )
+
+//Bookの方定義
+type Book struct {
+	Title string `json:"title"`
+	Body  string `json:"body"`
+}
+
 
 func main() {
 
@@ -25,7 +28,6 @@ func main() {
 	if err != nil {
 			log.Fatalf("failed opening connection to postgres: %v", err)
 	}
-	defer client.Close()
 	// Run the auto migration tool.
 	if err := client.Schema.Create(context.Background()); err != nil {
 			log.Fatalf("failed creating schema resources: %v", err)
@@ -35,15 +37,15 @@ func main() {
 	//Ginフレームワークのデフォルトの設定を使用してルータを作成
 	router := gin.Default()
 	// 本一覧を取得
-	router.GET("/books", getBooks)
+	router.GET("/books", func(c *gin.Context) { getBooksHandler(c, client) })
 	// 本の作成
-	router.POST("/books", createBook)
+	router.POST("/books", func(c *gin.Context){createBookHandler(c,client)})
 	// 本の詳細を取得
-	router.GET("/books/:id", getBook)
+	router.GET("/books/:id", func(c *gin.Context){getBookHandler(c,client)})
 	// 本の情報を更新
-	router.PUT("/books/:id", updateBook)
+	router.PATCH("/books/:id", func(c *gin.Context){updateBookHandler(c,client)})
 	// 本の情報を削除
-	router.DELETE("/books/:id", deleteBook)
+	router.DELETE("/books/:id", func(c *gin.Context){deleteBookHandler(c,client)})
 
 
 	router.GET("/", helloWorld)
@@ -54,28 +56,61 @@ func main() {
 	if err_port != nil {
 		log.Fatal(err_port)
 	}
+
+	//potgreSQLの接続終了
+	defer client.Close()
 }
 
 func helloWorld(c *gin.Context) {
-	c.String(http.StatusOK, "Hello, World!")
+	c.String(http.StatusOK, "Hello World!")
 }
 
-func getBooks(c *gin.Context){
-	c.String(http.StatusOK, "Hello getBooks")
+func getBooksHandler(c *gin.Context,client *ent.Client){
+
+	//Book一覧を取得する
+	books,err:=client.Book.Query().All(context.Background())
+	if err!=nil{
+		c.JSON(http.StatusInternalServerError,gin.H{"error": err.Error()})
+		return
+	}
+
+	//booksをjson形式で返す
+	c.JSON(http.StatusOK, books)
 }
 
-func createBook(c *gin.Context){
-	c.String(http.StatusOK, "Hello getBooks")
+func createBookHandler(c *gin.Context,client *ent.Client){
+	//bookにBookの方宣言
+	var book Book
+	// ShouldBindJsonはJsonデータの解析屋形変換を自動で行ってくれる
+	//バインドしたデータを&bookつまり先ほど定義した変数に格納
+	if err := c.ShouldBindJSON(&book); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	//Bookエンティティ
+	newBook, err := client.Book.
+		Create().
+		SetTitle(book.Title).
+		SetBody(book.Body).
+		Save(context.Background())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+
+	// 保存したBookの情報をレスポンスとして返す
+	c.JSON(http.StatusOK, newBook)
 }
 
-func getBook(c *gin.Context){
+func getBookHandler(c *gin.Context,client *ent.Client){
+	
+}
+
+func updateBookHandler(c *gin.Context,client *ent.Client){
 
 }
 
-func updateBook(c *gin.Context){
-
-}
-
-func deleteBook(c *gin.Context){
+func deleteBookHandler(c *gin.Context,client *ent.Client){
 
 }
