@@ -11,6 +11,9 @@ import (
 	"backend/myapp/ent"
 	//postgreSQLデータベースに接続するた目のドライバ
 	_ "github.com/lib/pq"
+
+	//文字列と数値の相互変換用
+	"strconv"
 )
 
 //Bookの方定義
@@ -81,6 +84,7 @@ func getBooksHandler(c *gin.Context,client *ent.Client){
 func createBookHandler(c *gin.Context,client *ent.Client){
 	//bookにBookの方宣言
 	var book Book
+
 	// ShouldBindJsonはJsonデータの解析屋形変換を自動で行ってくれる
 	//バインドしたデータを&bookつまり先ほど定義した変数に格納
 	if err := c.ShouldBindJSON(&book); err != nil {
@@ -104,13 +108,89 @@ func createBookHandler(c *gin.Context,client *ent.Client){
 }
 
 func getBookHandler(c *gin.Context,client *ent.Client){
-	
+	// URLパラメータから本のIDを取得する
+	bookIDStr := c.Param("id")
+	bookID, err := strconv.Atoi(bookIDStr)
+	if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "無効な本のIDです"})
+			return
+	}
+
+	// 指定されたIDの本をデータベースからクエリする
+	// GETは主キーの検索の時だけ使える
+	//context.Backgroud()は非同期用みたいな感じ
+	book, err := client.Book.Get(context.Background(), bookID)
+
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "指定された本が見つかりません"})
+		return
+	}
+
+	// 本の情報をJSON形式でレスポンスとして返す
+	c.JSON(http.StatusOK, book)
+
 }
 
 func updateBookHandler(c *gin.Context,client *ent.Client){
 
+	//bookにBookの方宣言
+	var book Book
+
+	// ShouldBindJsonはJsonデータの解析屋形変換を自動で行ってくれる
+	//バインドしたデータを&bookつまり先ほど定義した変数に格納
+	if err := c.ShouldBindJSON(&book); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// URLパラメータから本のIDを取得する
+	bookIDStr := c.Param("id")
+	bookID, err := strconv.Atoi(bookIDStr)
+	if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "無効な本のIDです"})
+			return
+	}
+
+	// 指定されたIDの本をデータベースからクエリする
+	// GETは主キーの検索の時だけ使える
+	//context.Backgroud()は非同期用みたいな感じ
+	update_book, err := client.Book.
+		UpdateOneID(bookID).
+		SetTitle(book.Title).
+		SetBody(book.Body).
+		Save(context.Background())
+
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 本の情報をJSON形式でレスポンスとして返す
+	c.JSON(http.StatusOK, update_book)
 }
 
 func deleteBookHandler(c *gin.Context,client *ent.Client){
+	// URLパラメータから本のIDを取得する
+	bookIDStr := c.Param("id")
+	bookID, err := strconv.Atoi(bookIDStr)
+	if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "無効な本のIDです"})
+			return
+	}
 
+	// 指定されたIDの本をデータベースからクエリする
+	// GETは主キーの検索の時だけ使える
+	//context.Backgroud()は非同期用みたいな感じ
+	book, err := client.Book.Get(context.Background(), bookID)
+
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "指定された本が見つかりません"})
+		return
+	}
+
+	// 本の情報をJSON形式でレスポンスとして返す
+	c.JSON(http.StatusOK, book)
 }
