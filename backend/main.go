@@ -73,7 +73,7 @@ func getBooksHandler(c *gin.Context,client *ent.Client){
 	//Book一覧を取得する
 	books,err:=client.Book.Query().All(context.Background())
 	if err!=nil{
-		c.JSON(http.StatusInternalServerError,gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError,gin.H{"error": err.Error(),"messsage":"本一覧が取得できませんでした。"})
 		return
 	}
 
@@ -88,7 +88,7 @@ func createBookHandler(c *gin.Context,client *ent.Client){
 	// ShouldBindJsonはJsonデータの解析屋形変換を自動で行ってくれる
 	//バインドしたデータを&bookつまり先ほど定義した変数に格納
 	if err := c.ShouldBindJSON(&book); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest,gin.H{"error": err.Error(),"messsage":"無効な本のIDです。"})
 		return
 	}
 	//Bookエンティティ
@@ -98,7 +98,7 @@ func createBookHandler(c *gin.Context,client *ent.Client){
 		SetBody(book.Body).
 		Save(context.Background())
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error(),"messsage":"本の保存ができませんでした。"})
 		return
 	}
 
@@ -112,7 +112,7 @@ func getBookHandler(c *gin.Context,client *ent.Client){
 	bookIDStr := c.Param("id")
 	bookID, err := strconv.Atoi(bookIDStr)
 	if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "無効な本のIDです"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error(),"messsage":"無効な本のIDです。"})
 			return
 	}
 
@@ -123,7 +123,7 @@ func getBookHandler(c *gin.Context,client *ent.Client){
 
 
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "指定された本が見つかりません"})
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error(),"messsage":"指定された本が見つかりません。"})
 		return
 	}
 
@@ -140,7 +140,7 @@ func updateBookHandler(c *gin.Context,client *ent.Client){
 	// ShouldBindJsonはJsonデータの解析屋形変換を自動で行ってくれる
 	//バインドしたデータを&bookつまり先ほど定義した変数に格納
 	if err := c.ShouldBindJSON(&book); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error(),"messsage":"無効な本のIDです。"})
 		return
 	}
 
@@ -148,7 +148,7 @@ func updateBookHandler(c *gin.Context,client *ent.Client){
 	bookIDStr := c.Param("id")
 	bookID, err := strconv.Atoi(bookIDStr)
 	if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "無効な本のIDです"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error(),"messsage":"文字列変換ができませんでした。"})
 			return
 	}
 
@@ -163,7 +163,7 @@ func updateBookHandler(c *gin.Context,client *ent.Client){
 
 
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error(),"messsage":"本の更新ができませんでした。"})
 		return
 	}
 
@@ -176,21 +176,20 @@ func deleteBookHandler(c *gin.Context,client *ent.Client){
 	bookIDStr := c.Param("id")
 	bookID, err := strconv.Atoi(bookIDStr)
 	if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "無効な本のIDです"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "無効な本のIDです。"})
 			return
 	}
 
 	// 指定されたIDの本をデータベースからクエリする
-	// GETは主キーの検索の時だけ使える
 	//context.Backgroud()は非同期用みたいな感じ
-	book, err := client.Book.Get(context.Background(), bookID)
+	err = client.Book.DeleteOneID(bookID).Exec(context.Background())
 
 
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "指定された本が見つかりません"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "削除に失敗しました。"})
 		return
 	}
 
 	// 本の情報をJSON形式でレスポンスとして返す
-	c.JSON(http.StatusOK, book)
+	c.JSON(http.StatusOK, gin.H{"message": "削除完了しました。"})
 }
