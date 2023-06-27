@@ -5,13 +5,13 @@ FROM node:16-alpine
 WORKDIR /frontend
 
 # 依存関係をインストールします
-COPY package.json ./
-#COPY package-lock.json ./
-
-RUN npm install
+COPY package.json package-lock.json ./
 
 # ソースコードをコピーします
 COPY . .
+
+RUN npm install
+
 
 # アプリケーションをビルドします
 RUN npm run build
