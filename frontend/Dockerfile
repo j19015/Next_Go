@@ -2,7 +2,7 @@
 FROM node:16-alpine
 
 # 作業ディレクトリを設定します
-WORKDIR /frontend
+WORKDIR /app
 
 # 依存関係をインストールします
 COPY package.json package-lock.json ./
