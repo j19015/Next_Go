@@ -19,6 +19,11 @@ const Home = () => {
   const handleChangeBody=(e :any)=>{
     setBody(e.target.value)
   }
+
+  //本を作成
+  const handleSubmit=(e :any)=>{
+    console.log({title,body})
+  }
   
   return (
     <>
@@ -27,7 +32,7 @@ const Home = () => {
 
 
         <h1>新規投稿</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="title">Title</label>
             <input 
@@ -45,6 +50,9 @@ const Home = () => {
               value={body}
               onChange={handleChangeBody}
             />
+          </div>
+          <div>
+            <button type="submit">登録</button>
           </div>
         </form>
       </div>
