@@ -13,7 +13,7 @@ interface Book {
 export const createBook = async (book: Book) => {
   try {
     // const response: AxiosResponse<any> = await axios.post(`${API_URL}/books`, book);
-    const res: Response = await fetch(`${API_URL}/session`,{
+    const res: Response = await fetch(`${API_URL}/books`,{
       method: 'POST',
       // bookオブジェクトをJSON文字列に変換
       body: JSON.stringify(book),
