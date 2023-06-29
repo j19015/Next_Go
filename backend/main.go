@@ -23,8 +23,8 @@ type Book struct {
 }
 
 
-func main() {
 
+func main() {
 	//postgreSQLに接続
 	client, err := ent.Open("postgres", "host=db port=5432 user=postgres dbname=bookers password=password sslmode=disable")
 	
@@ -39,6 +39,22 @@ func main() {
 
 	//Ginフレームワークのデフォルトの設定を使用してルータを作成
 	router := gin.Default()
+
+
+	// CORS設定
+	router.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		if c.Request.Method == "OPTIONS" {
+				c.AbortWithStatus(http.StatusOK)
+				return
+		}
+		c.Next()
+	})
+
+
 	// 本一覧を取得
 	router.GET("/books", func(c *gin.Context) { getBooksHandler(c, client) })
 	// 本の作成

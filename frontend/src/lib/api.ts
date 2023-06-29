@@ -12,9 +12,15 @@ interface Book {
 
 export const createBook = async (book: Book) => {
   try {
-    const response: AxiosResponse<any> = await axios.post(`${API_URL}/books`, book);
-    return response.data;
+    // const response: AxiosResponse<any> = await axios.post(`${API_URL}/books`, book);
+    const res: Response = await fetch(`${API_URL}/session`,{
+      method: 'POST',
+      // bookオブジェクトをJSON文字列に変換
+      body: JSON.stringify(book),
+      credentials: 'include'
+    });
+    return res.json();
   } catch (e :any) {
-    throw new Error(e.response.data.message);
+    throw new Error(e.response);
   }
 };

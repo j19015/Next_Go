@@ -6,6 +6,12 @@ import{createBook} from'../../lib/api'
 //useStateを用いて状態管理
 import { useState } from 'react';
 
+
+interface Book{
+  title: string;
+  body: string;
+}
+
 const Home = () => {
   //title,bodyを定義
   const [title,setTitle]=useState('');
@@ -21,8 +27,20 @@ const Home = () => {
   }
 
   //本を作成
-  const handleSubmit=(e :any)=>{
+  const handleSubmit=async(e :any)=>{
+    // デフォルトのページ遷移を防止
+    e.preventDefault();
+
+    //保存する本を表示
     console.log({title,body})
+
+    //createBookを実行
+    try{
+      await createBook({title,body})
+    }catch(e){
+      console.log("上手く本の保存ができませんでした",e)
+    }
+
   }
   
   return (
