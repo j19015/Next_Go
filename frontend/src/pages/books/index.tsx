@@ -37,6 +37,7 @@ const Home = () => {
     //createBookを実行
     try{
       await createBook({title,body})
+      console.log("うまく保存できました")
     }catch(e){
       console.log("上手く本の保存ができませんでした",e)
     }
