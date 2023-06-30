@@ -31,13 +31,14 @@ const Home = () => {
     // デフォルトのページ遷移を防止
     e.preventDefault();
 
-    //保存する本を表示
+    //保存する本を出力
     console.log({title,body})
 
     //createBookを実行
     try{
-      await createBook({title,body})
-      console.log("うまく保存できました")
+      const res= await createBook({title,body})
+      //保存した本の情報を出力
+      console.log(res)
     }catch(e){
       console.log("上手く本の保存ができませんでした",e)
     }
