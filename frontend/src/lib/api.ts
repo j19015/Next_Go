@@ -24,3 +24,16 @@ export const createBook = async (book: Book) => {
     throw new Error(e.response);
   }
 };
+
+
+export const getBookAll=async()=>{
+  try{
+    const res: Response = await fetch(`${API_URL}/books`,{
+      method: 'GET',
+      credentials: 'include'
+    });
+    return res.json();
+  } catch(e :any){
+    throw new Error(e.response);
+  }
+}

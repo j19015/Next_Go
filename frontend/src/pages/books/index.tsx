@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 //apiにあるcreateBookメソッドをimport
-import{createBook} from'../../lib/api'
+import{createBook,getBookAll} from'../../lib/api'
 
 //useStateを用いて状態管理
 import { useState } from 'react';
@@ -48,8 +48,8 @@ const Home = () => {
   }
 
   //本一覧を取得
-  const getBookAll=async()=>{
-    
+  const getBookAllhandle=async()=>{
+
   }
   
   return (
