@@ -17,6 +17,9 @@ const Home = () => {
   const [title,setTitle]=useState('');
   const [body,setBody]=useState('');
 
+  // 本の一覧を入れる変数を定義
+  const [bookAll, setBookAll] = useState<Book[]>([]);
+
   //handleを定義
   const handleChangeTitle=(e :any)=>{
     setTitle(e.target.value)
@@ -42,13 +45,18 @@ const Home = () => {
     }catch(e){
       console.log("上手く本の保存ができませんでした",e)
     }
+  }
 
+  //本一覧を取得
+  const getBookAll=async()=>{
+    
   }
   
   return (
     <>
       <div>
         <h1>本一覧</h1>
+
 
 
         <h1>新規投稿</h1>
