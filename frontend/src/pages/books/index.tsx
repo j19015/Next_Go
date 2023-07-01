@@ -55,10 +55,16 @@ const Home = () => {
 
   //本一覧を取得
   const getBookAllhandle=async()=>{
-    // 本一覧を取得するAPIを呼び出し
-    const res= await getBookAll();
-    // 取得した本一覧を表示
-    console.log(res);
+    try {
+      // 本一覧を取得するAPIを呼び出し
+      const res = await getBookAll();
+      // 取得した本一覧を表示
+      setBookAll(res);
+      console.log(res);
+  
+    } catch (error) {
+      console.log("本一覧の取得に失敗しました", error);
+    }
   }
   
   return (
