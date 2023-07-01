@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 //apiにあるcreateBookメソッドをimport
 import{createBook,getBookAll} from'../../lib/api'
@@ -13,6 +13,12 @@ interface Book{
 }
 
 const Home = () => {
+
+  useEffect(()=>{
+    getBookAllhandle();
+  },[]);
+
+
   //title,bodyを定義
   const [title,setTitle]=useState('');
   const [body,setBody]=useState('');
@@ -49,13 +55,19 @@ const Home = () => {
 
   //本一覧を取得
   const getBookAllhandle=async()=>{
-
+    // 本一覧を取得するAPIを呼び出し
+    const res= await getBookAll();
+    // 取得した本一覧を表示
+    console.log(res);
   }
   
   return (
     <>
       <div>
         <h1>本一覧</h1>
+        <table>
+
+        </table>
 
 
 
