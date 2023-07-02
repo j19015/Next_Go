@@ -24,7 +24,7 @@ const Home = () => {
   const [body,setBody]=useState('');
 
   // 本の一覧を入れる変数を定義
-  const [bookAll, setBookAll] = useState<Book[]>([]);
+  const [bookAll, setBookAll] = useState<Book[] | null>(null);
 
   //handleを定義
   const handleChangeTitle=(e :any)=>{
@@ -70,12 +70,31 @@ const Home = () => {
   return (
     <>
       <div>
-        <h1>本一覧</h1>
-        <table>
-
-        </table>
-
-
+      <h1>本一覧</h1>
+      <table border={1}>
+        <tr>
+          <th>title</th>
+          <th>body</th>
+          <th></th>
+        </tr>
+        {bookAll !=null ? 
+          bookAll.map((book,index)=>(
+            <tr key={index}>
+              <td>{book.title}</td>
+              <td>{book.body}</td>
+              <td>
+                <Link href="/books">Show</Link>
+                <Link href="/books">Edit</Link>
+                <Link href="/books">Delete</Link>
+              </td>
+            </tr>
+          ))
+        : 
+          <tr>
+            <td colSpan={3}>本がありません</td>
+          </tr>
+        }
+      </table>
 
         <h1>新規投稿</h1>
         <form onSubmit={handleSubmit}>
