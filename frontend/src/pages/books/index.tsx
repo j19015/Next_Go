@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 
 interface Book{
+  id: number;
   title: string;
   body: string;
 }
@@ -85,7 +86,7 @@ const Home = () => {
               <tr key={index}>
                 <td>{book.title}</td>
                 <td>{book.body}</td>
-                <td><Link href='/books/'>Show</Link></td>
+                <td> <Link href={`/books/${book.id}`}>Show</Link></td>
                 <td><Link href="/books">Edit</Link></td>
                 <td><Link href="/books">Delete</Link></td>
               </tr>
