@@ -71,30 +71,31 @@ const Home = () => {
     <>
       <div>
       <h1>本一覧</h1>
-      <table border={1}>
-        <tr>
-          <th>title</th>
-          <th>body</th>
-          <th></th>
-        </tr>
-        {bookAll !=null ? 
-          bookAll.map((book,index)=>(
-            <tr key={index}>
-              <td>{book.title}</td>
-              <td>{book.body}</td>
-              <td>
-                <Link href="/books">Show</Link>
-                <Link href="/books">Edit</Link>
-                <Link href="/books">Delete</Link>
-              </td>
-            </tr>
-          ))
-        : 
+      <table>
+        <tbody>
           <tr>
-            <td colSpan={3}>本がありません</td>
+            <th>title</th>
+            <th>body</th>
+            <th colSpan={3}></th>
           </tr>
-        }
+          {bookAll != null ? (
+            bookAll.map((book, index) => (
+              <tr key={index}>
+                <td>{book.title}</td>
+                <td>{book.body}</td>
+                <td><Link href="/books">Show</Link></td>
+                <td><Link href="/books">Edit</Link></td>
+                <td><Link href="/books">Delete</Link></td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={3}>本がありません</td>
+            </tr>
+          )}
+        </tbody>
       </table>
+
 
         <h1>新規投稿</h1>
         <form onSubmit={handleSubmit}>
