@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 //apiにあるcreateBookメソッドをimport
-import{createBook,getBookAll} from'../../lib/api'
+import{createBook,getBookAll,deleteBook} from'../../lib/api'
 
 //useStateを用いて状態管理
 import { useState } from 'react';
@@ -65,8 +65,18 @@ const Home = () => {
       setBookAll(res);
       console.log(res);
   
-    } catch (error) {
-      console.log("本一覧の取得に失敗しました", error);
+    } catch (e) {
+      console.log("本一覧の取得に失敗しました", e);
+    }
+  }
+
+  // 本を削除
+  const handleDeleteBook=async(e :any)=>{
+    try{
+      //本を削除するAPIを呼び出し
+      const res= await deleteBook(e.id)
+    }catch(e :any){
+      console.log("本の削除に失敗しました。",e)
     }
   }
   
@@ -87,8 +97,8 @@ const Home = () => {
                 <td>{book.title}</td>
                 <td>{book.body}</td>
                 <td> <Link href={`/books/${book.id}`}>Show</Link></td>
-                <td><Link href="/books">Edit</Link></td>
-                <td><Link href="/books">Delete</Link></td>
+                <td><Link href={`/books/${book.id}/edit`}>Edit</Link></td>
+                <td><Link href={`/books/${book.id}`} >Delete</Link></td>
               </tr>
             ))
           ) : (

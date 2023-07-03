@@ -37,3 +37,14 @@ export const getBookAll=async()=>{
     throw new Error(e.response);
   }
 }
+
+export const deleteBook=async(id :number)=>{
+  try{
+    const res: Response = await fetch(`${API_URL}/books/${id}`,{
+      method: 'DELETE',
+      credentials: 'include'
+    });
+  } catch(e :any){
+    throw new Error(e.response)
+  }
+}
