@@ -16,7 +16,7 @@ interface Book{
 const Home = () => {
 
   useEffect(()=>{
-    handlegetBookAll();
+    handleGetBookAll();
   },[]);
 
 
@@ -57,7 +57,7 @@ const Home = () => {
   }
 
   //本一覧を取得
-  const handlegetBookAll=async()=>{
+  const handleGetBookAll=async()=>{
     try {
       // 本一覧を取得するAPIを呼び出し
       const res = await getBookAll();
@@ -75,6 +75,8 @@ const Home = () => {
     try{
       //本を削除するAPIを呼び出し
       const res= await deleteBook(e.id)
+      //サクセスメッセージを表示
+      console.log("本１の削除に成功しました。")
     }catch(e :any){
       console.log("本の削除に失敗しました。",e)
     }
@@ -98,7 +100,7 @@ const Home = () => {
                 <td>{book.body}</td>
                 <td> <Link href={`/books/${book.id}`}>Show</Link></td>
                 <td><Link href={`/books/${book.id}/edit`}>Edit</Link></td>
-                <td><Link href={`/books/${book.id}`} >Delete</Link></td>
+                <td><button onClick={() => handleDeleteBook(book)}>Delete</button></td>
               </tr>
             ))
           ) : (
