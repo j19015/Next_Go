@@ -16,7 +16,7 @@ interface Book{
 const Home = () => {
 
   useEffect(()=>{
-    getBookAllhandle();
+    handlegetBookAll();
   },[]);
 
 
@@ -57,7 +57,7 @@ const Home = () => {
   }
 
   //本一覧を取得
-  const getBookAllhandle=async()=>{
+  const handlegetBookAll=async()=>{
     try {
       // 本一覧を取得するAPIを呼び出し
       const res = await getBookAll();
