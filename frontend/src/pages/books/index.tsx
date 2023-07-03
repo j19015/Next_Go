@@ -24,7 +24,7 @@ const Home = () => {
   const [body,setBody]=useState('');
 
   // 本の一覧を入れる変数を定義
-  const [bookAll, setBookAll] = useState<Book[] | null>(null);
+  const [bookAll, setBookAll] = useState<Book[]>([]);
 
   //handleを定義
   const handleChangeTitle=(e :any)=>{
@@ -48,6 +48,8 @@ const Home = () => {
       const res= await createBook({title,body})
       //保存した本の情報を出力
       console.log(res)
+      // 取得した本情報を追加
+      setBookAll(bookAll => [...bookAll, res]); 
     }catch(e){
       console.log("上手く本の保存ができませんでした",e)
     }
@@ -83,7 +85,7 @@ const Home = () => {
               <tr key={index}>
                 <td>{book.title}</td>
                 <td>{book.body}</td>
-                <td><Link href="/books">Show</Link></td>
+                <td><Link href='/books/'>Show</Link></td>
                 <td><Link href="/books">Edit</Link></td>
                 <td><Link href="/books">Delete</Link></td>
               </tr>
