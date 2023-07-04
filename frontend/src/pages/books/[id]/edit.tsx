@@ -117,8 +117,8 @@ const EditBookPage=()=>{
         back
       </Link>
       |
-      <Link href={`/books/${book?.id}/edit`}>
-        edit
+      <Link href={`/books/${book?.id}`}>
+        show
       </Link>
     </>
   )
