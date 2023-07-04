@@ -5,12 +5,19 @@ import axios, { AxiosResponse } from 'axios';
 const API_URL = 'http://localhost:8000'; 
 
 //Bookの型宣言
-interface Book {
+interface new_Book {
   title: string;
   body: string;
 }
 
-export const createBook = async (book: Book) => {
+
+interface update_Book {
+  id : number;
+  title: string;
+  body: string;
+}
+
+export const createBook = async (book: new_Book) => {
   try {
     // const response: AxiosResponse<any> = await axios.post(`${API_URL}/books`, book);
     const res: Response = await fetch(`${API_URL}/books`,{
@@ -55,6 +62,19 @@ export const deleteBook=async(id :number)=>{
       method: 'DELETE',
       credentials: 'include'
     });
+  } catch(e :any){
+    throw new Error(e.response)
+  }
+}
+
+export const updateBook=async(book: update_Book)=>{
+  try{
+    const res: Response = await fetch(`${API_URL}/books/${book.id}`,{
+      method: 'PATCH',
+      body: JSON.stringify(book),
+      credentials: 'include'
+    });
+    return res.json();
   } catch(e :any){
     throw new Error(e.response)
   }
