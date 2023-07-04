@@ -98,7 +98,7 @@ const Home = () => {
               <tr key={index}>
                 <td>{book.title}</td>
                 <td>{book.body}</td>
-                <td> <Link href={`/books/${book.id}`}>Show</Link></td>
+                <td><Link href={`/books/${book.id}`}>Show</Link></td>
                 <td><Link href={`/books/${book.id}/edit`}>Edit</Link></td>
                 <td><button onClick={() => handleDeleteBook(book)}>Delete</button></td>
               </tr>
