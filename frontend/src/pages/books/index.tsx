@@ -73,10 +73,15 @@ const Home = () => {
   // 本を削除
   const handleDeleteBook=async(e :any)=>{
     try{
-      //本を削除するAPIを呼び出し
-      const res= await deleteBook(e.id)
-      //サクセスメッセージを表示
-      console.log("本１の削除に成功しました。")
+      // 確認ダイアログを表示し、ユーザーが「OK」を選択した場合にのみ削除を実行する
+      if (window.confirm('本当に削除しますか？')) {
+        // 本を削除するAPIを呼び出し
+        await deleteBook(e.id);
+        // サクセスメッセージを表示
+        console.log("本の削除に成功しました。");
+        // 本一覧を再取得する
+        handleGetBookAll();
+      }
     }catch(e :any){
       console.log("本の削除に失敗しました。",e)
     }
