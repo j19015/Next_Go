@@ -27,6 +27,9 @@ const Home = () => {
   // 本の一覧を入れる変数を定義
   const [bookAll, setBookAll] = useState<Book[]>([]);
 
+  //バリデーションのエラーメッセージを出力する変数を定義
+  const [error, setError]=useState('')
+
   //handleを定義
   const handleChangeTitle=(e :any)=>{
     setTitle(e.target.value)
@@ -49,8 +52,14 @@ const Home = () => {
       const res= await createBook({title,body})
       //保存した本の情報を出力
       console.log(res)
+      //errorがどうかで条件分岐
+      if (!res.error){
       // 取得した本情報を追加
       setBookAll(bookAll => [...bookAll, res]); 
+      }else{
+      // もしエラーが返ってきていた場合エラーをerror変数に格納
+      setError(res.error);
+      }
     }catch(e){
       console.log("上手く本の保存ができませんでした",e)
     }
@@ -118,6 +127,7 @@ const Home = () => {
 
 
         <h1>新規投稿</h1>
+        <p>{error}</p>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="title">Title</label>
