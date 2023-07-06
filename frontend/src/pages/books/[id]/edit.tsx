@@ -11,6 +11,9 @@ const EditBookPage=()=>{
   const [title,setTitle]=useState('');
   const [body,setBody]=useState('');
 
+    //バリデーションのエラーメッセージを出力する変数を定義
+    const [error, setError]=useState('')
+
   interface Book{
     id: number;
     title: string;
@@ -44,10 +47,14 @@ const EditBookPage=()=>{
           title: title,
           body: body,
         });
-        //保存した本の情報を出力
-        console.log("本の更新ができました",res)
-        // 更新した本の情報を反映
-
+        //errorが返ってきていた場合の処理
+        if(!res.error){
+          //保存した本の情報を出力
+          console.log("本の更新ができました",res);
+        }else{
+          //errorをセット
+          setError(res.error);
+        }
       }
     }catch(e){
       console.log("上手く本の更新ができませんでした",e)
@@ -64,9 +71,9 @@ const EditBookPage=()=>{
       console.log(res);
       //取得した情報をbookにセット
       setBook(res)
-
+      //formにセットしているtitleに対して取得した本のtitleをセット
       setTitle(res.title)
-
+      //formにセットしているbodyに対して取得した本のbodyをセット
       setBody(res.body)
       
     } catch (e) {
@@ -89,6 +96,7 @@ const EditBookPage=()=>{
   return (
     <>
       <h1>Edit Book</h1>
+      <p>{error}</p>
       <form onSubmit={handleUpdate}>
           <div>
             <label htmlFor="title">Title</label>

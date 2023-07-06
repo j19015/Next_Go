@@ -54,11 +54,11 @@ const Home = () => {
       console.log(res)
       //errorがどうかで条件分岐
       if (!res.error){
-      // 取得した本情報を追加
-      setBookAll(bookAll => [...bookAll, res]); 
+        // 取得した本情報を追加
+        setBookAll(bookAll => [...bookAll, res]); 
       }else{
-      // もしエラーが返ってきていた場合エラーをerror変数に格納
-      setError(res.error);
+        // もしエラーが返ってきていた場合エラーをerror変数に格納
+        setError(res.error);
       }
     }catch(e){
       console.log("上手く本の保存ができませんでした",e)
