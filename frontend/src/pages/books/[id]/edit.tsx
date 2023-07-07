@@ -12,7 +12,7 @@ const EditBookPage=()=>{
   const [body,setBody]=useState('');
 
     //バリデーションのエラーメッセージを出力する変数を定義
-    const [error, setError]=useState('')
+    const [flashMessage, setFlashMessage]=useState('')
 
   interface Book{
     id: number;
@@ -51,9 +51,11 @@ const EditBookPage=()=>{
         if(!res.error){
           //保存した本の情報を出力
           console.log("本の更新ができました",res);
+          //サクセスメッセージを格納
+          setFlashMessage("本の更新ができました")
         }else{
           //errorをセット
-          setError(res.error);
+          setFlashMessage(res.error);
         }
       }
     }catch(e){
@@ -96,7 +98,7 @@ const EditBookPage=()=>{
   return (
     <>
       <h1>Edit Book</h1>
-      <p>{error}</p>
+      <p>{flashMessage}</p>
       <form onSubmit={handleUpdate}>
           <div>
             <label htmlFor="title">Title</label>
