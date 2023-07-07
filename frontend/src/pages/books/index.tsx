@@ -28,7 +28,7 @@ const Home = () => {
   const [bookAll, setBookAll] = useState<Book[]>([]);
 
   //バリデーションのエラーメッセージを出力する変数を定義
-  const [error, setError]=useState('')
+  const [flashMessage, setFlashMessage]=useState('')
 
   //handleを定義
   const handleChangeTitle=(e :any)=>{
@@ -56,9 +56,11 @@ const Home = () => {
       if (!res.error){
         // 取得した本情報を追加
         setBookAll(bookAll => [...bookAll, res]); 
+        //サクセスメッセージを追加
+        setFlashMessage("本の追加に成功しました。")
       }else{
         // もしエラーが返ってきていた場合エラーをerror変数に格納
-        setError(res.error);
+        setFlashMessage(res.error);
       }
     }catch(e){
       console.log("上手く本の保存ができませんでした",e)
@@ -88,6 +90,8 @@ const Home = () => {
         await deleteBook(e.id);
         // サクセスメッセージを表示
         console.log("本の削除に成功しました。");
+        //サクセスメッセージを格納
+        setFlashMessage("本の削除に成功しました")
         // 本一覧を再取得する
         handleGetBookAll();
       }
@@ -127,7 +131,7 @@ const Home = () => {
 
 
         <h1>新規投稿</h1>
-        <p>{error}</p>
+        <p>{flashMessage}</p>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="title">Title</label>
