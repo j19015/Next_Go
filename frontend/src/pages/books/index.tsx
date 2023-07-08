@@ -103,6 +103,7 @@ const Home = () => {
   return (
     <>
       <div>
+      <p>{flashMessage}</p>
       <h1>本一覧</h1>
       <table>
         <tbody>
@@ -131,7 +132,6 @@ const Home = () => {
 
 
         <h1>新規投稿</h1>
-        <p>{flashMessage}</p>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="title">Title</label>
