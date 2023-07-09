@@ -104,7 +104,7 @@ const Home = () => {
     <>
       <div>
       <p>{flashMessage}</p>
-      <h1>本一覧</h1>
+      <h1>Book Index</h1>
       <table>
         <tbody>
           <tr>
@@ -124,14 +124,14 @@ const Home = () => {
             ))
           ) : (
             <tr>
-              <td colSpan={3}>本がありません</td>
+              <td colSpan={3}>no book submit</td>
             </tr>
           )}
         </tbody>
       </table>
 
 
-        <h1>新規投稿</h1>
+        <h1>New Book</h1>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="title">Title</label>
@@ -152,7 +152,7 @@ const Home = () => {
             />
           </div>
           <div>
-            <button type="submit">登録</button>
+            <button type="submit">submit</button>
           </div>
         </form>
       </div>
