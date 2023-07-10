@@ -7,18 +7,23 @@ const EditBookPage=()=>{
   const router=useRouter();
   const {id} = router.query;
 
-  //title,bodyを定義
-  const [title,setTitle]=useState('');
-  const [body,setBody]=useState('');
-
-    //バリデーションのエラーメッセージを出力する変数を定義
-    const [flashMessage, setFlashMessage]=useState('')
-
   interface Book{
     id: number;
     title: string;
     body: string;
   }
+  interface flashMessageType{
+    errorMessage: string;
+    successMessage: string;
+  }
+
+  //title,bodyを定義
+  const [title,setTitle]=useState('');
+  const [body,setBody]=useState('');
+
+    //バリデーションのエラーメッセージを出力する変数を定義
+    const [flashMessage, setFlashMessage]=useState<flashMessageType | null>(null)
+
 
   const [book,setBook]=useState<Book | null>(null)
 
@@ -52,10 +57,10 @@ const EditBookPage=()=>{
           //保存した本の情報を出力
           console.log("本の更新ができました",res);
           //サクセスメッセージを格納
-          setFlashMessage("本の更新ができました")
+          setFlashMessage({successMessage:"本の更新ができました",errorMessage:""})
         }else{
           //errorをセット
-          setFlashMessage(res.error);
+          setFlashMessage({successMessage:"",errorMessage:res.error})
         }
       }
     }catch(e){
@@ -98,7 +103,8 @@ const EditBookPage=()=>{
   return (
     <>
       <h1>Edit Book</h1>
-      <p>{flashMessage}</p>
+      <p style={{ color: "red" }}>{flashMessage?.errorMessage}</p>
+      <p style={{ color: "green" }}>{flashMessage?.successMessage}</p>
       <form onSubmit={handleUpdate}>
           <div>
             <label htmlFor="title">Title</label>
