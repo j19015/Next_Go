@@ -21,8 +21,8 @@ const EditBookPage=()=>{
   const [title,setTitle]=useState('');
   const [body,setBody]=useState('');
 
-    //バリデーションのエラーメッセージを出力する変数を定義
-    const [flashMessage, setFlashMessage]=useState<flashMessageType | null>(null)
+  //バリデーションのエラーメッセージを出力する変数を定義
+  const [flashMessage, setFlashMessage]=useState<flashMessageType | null>(null)
 
 
   const [book,setBook]=useState<Book | null>(null)
@@ -102,9 +102,9 @@ const EditBookPage=()=>{
 
   return (
     <>
-      <h1>Edit Book</h1>
       <p style={{ color: "red" }}>{flashMessage?.errorMessage}</p>
       <p style={{ color: "green" }}>{flashMessage?.successMessage}</p>
+      <h1>Edit Book</h1>
       <form onSubmit={handleUpdate}>
           <div>
             <label htmlFor="title">Title</label>

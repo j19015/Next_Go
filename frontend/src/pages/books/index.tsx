@@ -13,6 +13,11 @@ interface Book{
   body: string;
 }
 
+interface flashMessageType{
+  errorMessage: string;
+  successMessage: string;
+}
+
 const Home = () => {
 
   useEffect(()=>{
@@ -26,9 +31,10 @@ const Home = () => {
 
   // 本の一覧を入れる変数を定義
   const [bookAll, setBookAll] = useState<Book[]>([]);
+  
 
-  //バリデーションのエラーメッセージを出力する変数を定義
-  const [flashMessage, setFlashMessage]=useState('')
+   //バリデーションのエラーメッセージを出力する変数を定義
+   const [flashMessage, setFlashMessage]=useState<flashMessageType | null>(null)
 
   //handleを定義
   const handleChangeTitle=(e :any)=>{
@@ -57,10 +63,10 @@ const Home = () => {
         // 取得した本情報を追加
         setBookAll(bookAll => [...bookAll, res]); 
         //サクセスメッセージを追加
-        setFlashMessage("本の追加に成功しました。")
+        setFlashMessage({successMessage:"本の追加に成功しました。",errorMessage:""})
       }else{
         // もしエラーが返ってきていた場合エラーをerror変数に格納
-        setFlashMessage(res.error);
+        setFlashMessage({successMessage:"",errorMessage:res.error});
       }
     }catch(e){
       console.log("上手く本の保存ができませんでした",e)
@@ -91,7 +97,7 @@ const Home = () => {
         // サクセスメッセージを表示
         console.log("本の削除に成功しました。");
         //サクセスメッセージを格納
-        setFlashMessage("本の削除に成功しました")
+        setFlashMessage({successMessage:"本の削除に成功しました。",errorMessage:""})
         // 本一覧を再取得する
         handleGetBookAll();
       }
@@ -103,7 +109,8 @@ const Home = () => {
   return (
     <>
       <div>
-      <p>{flashMessage}</p>
+      <p style={{ color: "red" }}>{flashMessage?.errorMessage}</p>
+      <p style={{ color: "green" }}>{flashMessage?.successMessage}</p>
       <h1>Book Index</h1>
       <table>
         <tbody>
