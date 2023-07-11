@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { getBook,updateBook } from "@/lib/api";
 import Link from 'next/link';
 
+//MUI
+import { TextField, Typography, Button, Box } from '@mui/material';
+
 const EditBookPage=()=>{
   const router=useRouter();
   const {id} = router.query;
@@ -106,28 +109,22 @@ const EditBookPage=()=>{
       <p style={{ color: "green" }}>{flashMessage?.successMessage}</p>
       <h1>Edit Book</h1>
       <form onSubmit={handleUpdate}>
-          <div>
-            <label htmlFor="title">Title</label>
-            <input 
-              id="title"
-              name="title"
-              value={title}
-              onChange={handleChangeTitle}
-            />
-          </div>
-          <div>
-            <label htmlFor="body">Body</label>
-            <input 
-              id="body"
-              name="body"
-              value={body}
-              onChange={handleChangeBody}
-            />
-          </div>
-          <div>
-            <button type="submit">更新</button>
-          </div>
-        </form>
+        <TextField
+          id="title"
+          label="Title"
+          value={title}
+          onChange={handleChangeTitle}
+          sx={{m:2}}
+        /><br/>
+        <TextField
+          id="body"
+          label="Body"
+          value={body}
+          onChange={handleChangeBody}
+          sx={{m:2}}
+        /><br/>
+        <Button type="submit" variant="contained" sx={{m:2}}>Update</Button>
+      </form>
 
       <Link href="/books">
         back
