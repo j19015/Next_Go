@@ -13,7 +13,9 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+
+
+import { TextField, Typography, Button, Box } from '@mui/material';
 
 
 interface Book{
@@ -118,8 +120,29 @@ const Home = () => {
   return (
     <>
       <div>
+        
         <p style={{ color: "red" }}>{flashMessage?.errorMessage}</p>
         <p style={{ color: "green" }}>{flashMessage?.successMessage}</p>
+        
+        <h1>New Book</h1>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            id="title"
+            label="Title"
+            value={title}
+            onChange={handleChangeTitle}
+            sx={{m:2}}
+          /><br/>
+          <TextField
+            id="body"
+            label="Body"
+            value={body}
+            onChange={handleChangeBody}
+            sx={{m:2}}
+          /><br/>
+          <Button type="submit" variant="contained" sx={{m:2}}>Submit</Button>
+        </form>
+
         <h1>Book Index</h1>
         <TableContainer>
           <Table sx={{ width: 600 }}>
@@ -153,31 +176,6 @@ const Home = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <h1>New Book</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="title">Title</label>
-            <input 
-              id="title"
-              name="title"
-              value={title}
-              onChange={handleChangeTitle}
-            />
-          </div>
-          <div>
-            <label htmlFor="body">Body</label>
-            <input 
-              id="body"
-              name="body"
-              value={body}
-              onChange={handleChangeBody}
-            />
-          </div>
-          <div>
-            <button type="submit">submit</button>
-          </div>
-        </form>
       </div>
     </>
   );
