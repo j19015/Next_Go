@@ -6,6 +6,15 @@ import{createBook,getBookAll,deleteBook} from'../../lib/api'
 //useStateを用いて状態管理
 import { useState } from 'react';
 
+//MUI
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
 
 interface Book{
   id: number;
@@ -109,34 +118,41 @@ const Home = () => {
   return (
     <>
       <div>
-      <p style={{ color: "red" }}>{flashMessage?.errorMessage}</p>
-      <p style={{ color: "green" }}>{flashMessage?.successMessage}</p>
-      <h1>Book Index</h1>
-      <table>
-        <tbody>
-          <tr>
-            <th>title</th>
-            <th>body</th>
-            <th colSpan={3}></th>
-          </tr>
-          {bookAll != null ? (
-            bookAll.map((book, index) => (
-              <tr key={index}>
-                <td>{book.title}</td>
-                <td>{book.body}</td>
-                <td><Link href={`/books/${book.id}`}>Show</Link></td>
-                <td><Link href={`/books/${book.id}/edit`}>Edit</Link></td>
-                <td><button onClick={() => handleDeleteBook(book)}>Delete</button></td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={3}>no book submit</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
+        <p style={{ color: "red" }}>{flashMessage?.errorMessage}</p>
+        <p style={{ color: "green" }}>{flashMessage?.successMessage}</p>
+        <h1>Book Index</h1>
+        <TableContainer>
+          <Table sx={{ width: 600 }}>
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">Title</TableCell>
+                <TableCell align="right">Body</TableCell>
+                <TableCell align="right">Options</TableCell>
+                <TableCell align="right"></TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {bookAll != null ? (
+                bookAll.map((book, index) => (
+                  <TableRow
+                    key={index}
+                  >
+                    <TableCell align="right">{book.title}</TableCell>
+                    <TableCell align="right">{book.body}</TableCell>
+                    <TableCell align="right"><Link href={`/books/${book.id}`}>Show</Link></TableCell>
+                    <TableCell align="right"><Link href={`/books/${book.id}/edit`}>Edit</Link></TableCell>
+                    <TableCell align="right"><button onClick={() => handleDeleteBook(book)}>Delete</button></TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={3}>no book submit</td>
+                </tr>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
         <h1>New Book</h1>
         <form onSubmit={handleSubmit}>
