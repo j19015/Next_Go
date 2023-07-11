@@ -26,7 +26,7 @@ const ShowBookPage = () => {
       //取得した情報をbookにセット
       setBookAll(res)
     } catch (e) {
-      console.log("本の情報を取得できませんでした。");
+      console.log("本の情報を取得できませんでした。",e);
     }
   };
 
