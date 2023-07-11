@@ -125,11 +125,11 @@ const Home = () => {
           <Table sx={{ width: 600 }}>
             <TableHead>
               <TableRow>
-                <TableCell align="right">Title</TableCell>
-                <TableCell align="right">Body</TableCell>
-                <TableCell align="right">Options</TableCell>
-                <TableCell align="right"></TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="left">Title</TableCell>
+                <TableCell align="left">Body</TableCell>
+                <TableCell align="left">Options</TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -138,11 +138,11 @@ const Home = () => {
                   <TableRow
                     key={index}
                   >
-                    <TableCell align="right">{book.title}</TableCell>
-                    <TableCell align="right">{book.body}</TableCell>
-                    <TableCell align="right"><Link href={`/books/${book.id}`}>Show</Link></TableCell>
-                    <TableCell align="right"><Link href={`/books/${book.id}/edit`}>Edit</Link></TableCell>
-                    <TableCell align="right"><button onClick={() => handleDeleteBook(book)}>Delete</button></TableCell>
+                    <TableCell align="left">{book.title}</TableCell>
+                    <TableCell align="left">{book.body}</TableCell>
+                    <TableCell align="left"><Link href={`/books/${book.id}`}>Show</Link></TableCell>
+                    <TableCell align="left"><Link href={`/books/${book.id}/edit`}>Edit</Link></TableCell>
+                    <TableCell align="left"><button onClick={() => handleDeleteBook(book)}>Delete</button></TableCell>
                   </TableRow>
                 ))
               ) : (
