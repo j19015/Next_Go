@@ -127,13 +127,13 @@ const EditBookPage=()=>{
         <Button type="submit" variant="contained" sx={{m:2}}>Update</Button>
       </form>
 
-      <MuiLink href="/books" underline="hover" sx={{ marginRight: '0.5rem' }}>
+      <Link href="/books">
         back
-      </MuiLink>
+      </Link>
       |
-      <MuiLink href={`/books/${book?.id}`} underline="hover" sx={{ marginLeft: '0.5rem' }}>
+      <Link href={`/books/${book?.id}`}>
         show
-      </MuiLink>
+      </Link>
     </>
   )
 
