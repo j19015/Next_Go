@@ -15,7 +15,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 
+
 import { TextField, Typography, Button, Box } from '@mui/material';
+import { Link as MuiLink } from '@mui/material';
 
 
 interface Book{
@@ -163,8 +165,16 @@ const Home = () => {
                   >
                     <TableCell align="left">{book.title}</TableCell>
                     <TableCell align="left">{book.body}</TableCell>
-                    <TableCell align="left"><Link href={`/books/${book.id}`}>Show</Link></TableCell>
-                    <TableCell align="left"><Link href={`/books/${book.id}/edit`}>Edit</Link></TableCell>
+                    <TableCell align="left">
+                      <MuiLink href={`/books/${book.id}`} underline="hover">
+                        Show
+                      </MuiLink>
+                    </TableCell>
+                    <TableCell align="left">
+                      <MuiLink href={`/books/${book.id}/edit`} underline="hover">
+                        Edit
+                      </MuiLink>
+                    </TableCell>
                     <TableCell align="left"><Button variant="outlined" color="error" onClick={() => handleDeleteBook(book)}>Delete</Button></TableCell>
                   </TableRow>
                 ))
