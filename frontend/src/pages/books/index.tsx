@@ -165,7 +165,7 @@ const Home = () => {
                     <TableCell align="left">{book.body}</TableCell>
                     <TableCell align="left"><Link href={`/books/${book.id}`}>Show</Link></TableCell>
                     <TableCell align="left"><Link href={`/books/${book.id}/edit`}>Edit</Link></TableCell>
-                    <TableCell align="left"><button onClick={() => handleDeleteBook(book)}>Delete</button></TableCell>
+                    <TableCell align="left"><Button variant="outlined" color="error" onClick={() => handleDeleteBook(book)}>Delete</Button></TableCell>
                   </TableRow>
                 ))
               ) : (
