@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import { getBook } from "@/lib/api";
 import Link from 'next/link';
 import { useEffect, useState } from "react";
+import { Link as MuiLink } from '@mui/material';
+import { Typography} from '@mui/material';
 
 const ShowBookPage = () => {
   const router = useRouter();
@@ -44,15 +46,15 @@ const ShowBookPage = () => {
   return (
     <>
       <h1>Show Book</h1>
-      <p>title: {book?.title}</p>
-      <p>body: {book?.body}</p>
-      <Link href="/books">
+      <Typography variant="body1">title: {book?.title}</Typography>
+      <Typography variant="body1">body: {book?.body}</Typography>
+      <MuiLink href="/books" underline="hover" sx={{ marginRight: '0.5rem' }}>
         back
-      </Link>
+      </MuiLink>
       |
-      <Link href={`/books/${book?.id}/edit`}>
+      <MuiLink href={`/books/${book?.id}/edit`} underline="hover" sx={{ marginLeft: '0.5rem' }}>
         edit
-      </Link>
+      </MuiLink>
     </>
   );
 };

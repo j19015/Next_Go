@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getBook,updateBook } from "@/lib/api";
 import Link from 'next/link';
+import { Link as MuiLink } from '@mui/material';
 
 //MUI
 import { TextField, Typography, Button, Box } from '@mui/material';
@@ -126,13 +127,13 @@ const EditBookPage=()=>{
         <Button type="submit" variant="contained" sx={{m:2}}>Update</Button>
       </form>
 
-      <Link href="/books">
+      <MuiLink href="/books" underline="hover" sx={{ marginRight: '0.5rem' }}>
         back
-      </Link>
+      </MuiLink>
       |
-      <Link href={`/books/${book?.id}`}>
+      <MuiLink href={`/books/${book?.id}`} underline="hover" sx={{ marginLeft: '0.5rem' }}>
         show
-      </Link>
+      </MuiLink>
     </>
   )
 
